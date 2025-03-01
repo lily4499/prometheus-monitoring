@@ -1,19 +1,27 @@
-global:
-  resolve_timeout: 5m
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: monitoring  # Update with your actual namespace
 
-route:
-  receiver: "slack"
-  group_wait: 10s
-  group_interval: 10s
-  repeat_interval: 30m
+data:
+  alertmanager.yml: |
+    global:
+      resolve_timeout: 5m
 
-receivers:
-  - name: "slack"
-    slack_configs:
-      - channel: "#devops-project"
-        send_resolved: true
-        username: "Prometheus Alert"
-        title: "🚨 [{{ .Status | toUpper }}] Prometheus Alert"
-        text: "{{ range .Alerts }}*Alert:* {{ .Annotations.summary }}\n*Description:* {{ .Annotations.description }}\n*Severity:* {{ .Labels.severity }}\n*Time:* {{ .StartsAt }}\n{{ end }}"
-        api_url: "https://hooks.slack.com/services/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"
+    route:
+      receiver: "slack"
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 30m
+
+    receivers:
+      - name: "slack"
+        slack_configs:
+          - channel: "#devops-project"
+            send_resolved: true
+            username: "Prometheus Alert"
+            title: "🚨 [{{ .Status | toUpper }}] Prometheus Alert"
+            text: "{{ range .Alerts }}*Alert:* {{ .Annotations.summary }}\n*Description:* {{ .Annotations.description }}\n*Severity:* {{ .Labels.severity }}\n*Time:* {{ .StartsAt }}\n{{ end }}"
+            api_url: "https://hooks.slack.com/services/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"
 
