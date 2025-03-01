@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-rules
+  labels:
+    name: prometheus-rules
+data:
+  rules.yml: |
+    groups:
+    - name: instance-alerts
+      rules:
+      - alert: HighRequestRate
+        expr: rate(http_requests_total[5m]) > 5
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "🚨 High Request Rate Detected"
+          description: "The request rate has been above 5 requests per second for the past 2 minutes."
+
