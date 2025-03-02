@@ -24,13 +24,56 @@ spec:
             - name: SLACK_WEBHOOK_URL
               valueFrom:
                 secretKeyRef:
-                  name: slack-secret  # Name of the Kubernetes Secret
-                  key: slack_url       # Key inside the Secret
+                  name: slack-secret
+                  key: slack_url
           volumeMounts:
             - name: config-volume
               mountPath: /etc/alertmanager
+          command: ["/bin/sh", "-c"]
+          args:
+            - sed -i "s|__SLACK_WEBHOOK_URL__|$SLACK_WEBHOOK_URL|g" /etc/alertmanager/alertmanager.yml && exec /bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml
       volumes:
         - name: config-volume
           configMap:
             name: alertmanager-config
+
+
+
+
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: alertmanager
+#   labels:
+#     app: alertmanager
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: alertmanager
+#   template:
+#     metadata:
+#       labels:
+#         app: alertmanager
+#     spec:
+#       containers:
+#         - name: alertmanager
+#           image: quay.io/prometheus/alertmanager:v0.24.0
+#           args:
+#             - "--config.file=/etc/alertmanager/alertmanager.yml"
+#             - "--storage.path=/alertmanager"
+#           env:
+#             - name: SLACK_WEBHOOK_URL
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: slack-secret  # Name of the Kubernetes Secret
+#                   key: slack_url       # Key inside the Secret
+#           volumeMounts:
+#             - name: config-volume
+#               mountPath: /etc/alertmanager
+#       volumes:
+#         - name: config-volume
+#           configMap:
+#             name: alertmanager-config
 
