@@ -17,6 +17,7 @@ spec:
           image: prom/prometheus:v2.39.1
           args:
             - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--web.enable-lifecycle"
           ports:
             - containerPort: 9090
           volumeMounts:
@@ -24,14 +25,15 @@ spec:
               mountPath: /etc/prometheus
             - name: rules-volume
               mountPath: /etc/prometheus/rules.yml
-              subPath: rules.yml  # Ensure alert rules file is loaded
+              subPath: rules.yml  # Ensure alert rules file is correctly mounted
       volumes:
         - name: config-volume
           configMap:
             name: prometheus-config
         - name: rules-volume
           configMap:
-            name: prometheus-rules  # Load alert rules
+            name: prometheus-rules  # Mount alert rules ConfigMap
+
 
 
 
