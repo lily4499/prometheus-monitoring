@@ -21,9 +21,8 @@ data:
             username: "Prometheus Alert"
             title: "🚨 [{{ .Status | toUpper }}] Prometheus Alert"
             text: "{{ range .Alerts }}*Alert:* {{ .Annotations.summary }}\n*Severity:* {{ .Labels.severity }}\n*Time:* {{ .StartsAt }}\n{{ end }}"
-            api_url: "https://slack.com/api/chat.postMessage"
-            http_config:
-              bearer_token: "xoxb-6800276630727-8537313378420-nBSAghp3lPUB8YoH5i1SOZY6"  # Replace with your actual bot token
+            api_url: "https://hooks.slack.com/services/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"
+            
     
 
 
