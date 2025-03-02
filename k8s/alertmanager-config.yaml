@@ -23,7 +23,7 @@ data:
             text: "{{ range .Alerts }}*Alert:* {{ .Annotations.summary }}\n*Severity:* {{ .Labels.severity }}\n*Time:* {{ .StartsAt }}\n{{ end }}"
             api_url: "https://slack.com/api/chat.postMessage"
             http_config:
-              bearer_token: "xoxb-6800276630727-8537313378420-GtpVBASvXIHqx5e3AJ2QqUNQ"  # Replace with your actual bot token
+              bearer_token: "xoxb-6800276630727-8537313378420-nBSAghp3lPUB8YoH5i1SOZY6"  # Replace with your actual bot token
     
 
 
