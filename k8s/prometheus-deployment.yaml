@@ -17,13 +17,15 @@ spec:
           image: prom/prometheus:v2.39.1
           args:
             - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus"
+            - "--web.enable-lifecycle"  # ✅ Added this flag
           ports:
             - containerPort: 9090
           volumeMounts:
             - name: config-volume
               mountPath: /etc/prometheus
             - name: rules-volume
-              mountPath: /etc/prometheus/rules  # ✅ Corrected mount path (directory instead of file)
+              mountPath: /etc/prometheus/rules
       volumes:
         - name: config-volume
           configMap:
