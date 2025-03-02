@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus
-  labels:
-    app: prometheus
 spec:
   replicas: 1
   selector:
@@ -15,17 +13,65 @@ spec:
         app: prometheus
     spec:
       containers:
-      - name: prometheus
-        image: prom/prometheus
-        args:
-          - "--config.file=/etc/prometheus/prometheus.yml"
-        ports:
-        - containerPort: 9090
-        volumeMounts:
-        - name: config-volume
-          mountPath: /etc/prometheus/
+        - name: prometheus
+          image: prom/prometheus:v2.39.1
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/prometheus
+            - name: rules-volume
+              mountPath: /etc/prometheus/rules.yml
+              subPath: rules.yml  # Ensure alert rules file is loaded
       volumes:
-      - name: config-volume
-        configMap:
-          name: prometheus-config
+        - name: config-volume
+          configMap:
+            name: prometheus-config
+        - name: rules-volume
+          configMap:
+            name: prometheus-rules  # Load alert rules
+
+
+
+
+
+
+
+
+
+
+
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: prometheus
+#   labels:
+#     app: prometheus
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: prometheus
+#   template:
+#     metadata:
+#       labels:
+#         app: prometheus
+#     spec:
+#       containers:
+#       - name: prometheus
+#         image: prom/prometheus
+#         args:
+#           - "--config.file=/etc/prometheus/prometheus.yml"
+#         ports:
+#         - containerPort: 9090
+#         volumeMounts:
+#         - name: config-volume
+#           mountPath: /etc/prometheus/
+#       volumes:
+#       - name: config-volume
+#         configMap:
+#           name: prometheus-config
 
