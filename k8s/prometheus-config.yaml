@@ -15,7 +15,7 @@ data:
     alerting:
       alertmanagers:
         - static_configs:
-            - targets: ['alertmanager-service.default.svc.cluster.local:9093']
+            - targets: ['alertmanager.default.svc.cluster.local:9093']
 
     scrape_configs:
       - job_name: 'prometheus-app'
