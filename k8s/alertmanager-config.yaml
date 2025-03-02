@@ -20,9 +20,11 @@ data:
             send_resolved: true
             username: "Prometheus Alert"
             title: "🚨 [{{ .Status | toUpper }}] Prometheus Alert"
-            text: "{{ range .Alerts }}*Alert:* {{ .Annotations.summary }}\n*Description:* {{ .Annotations.description }}\n*Severity:* {{ .Labels.severity }}\n*Time:* {{ .StartsAt }}\n{{ end }}"
-            api_url: "https://hooks.slack.com/services/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"  # HARDCODED SLACK WEBHOOK
-
+            text: "{{ range .Alerts }}*Alert:* {{ .Annotations.summary }}\n*Severity:* {{ .Labels.severity }}\n*Time:* {{ .StartsAt }}\n{{ end }}"
+            api_url: "https://slack.com/api/chat.postMessage"
+            http_config:
+              bearer_token: "xoxb-6800276630727-8535085096964-QdcF3WhFKP4AfcVoiCluBPxY"  # Replace with your actual bot token
+    
 
 
 # apiVersion: v1
