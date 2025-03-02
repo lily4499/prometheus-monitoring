@@ -21,7 +21,7 @@ data:
             username: "Prometheus Alert"
             title: "🚨 [{{ .Status | toUpper }}] Prometheus Alert"
             text: "{{ range .Alerts }}*Alert:* {{ .Annotations.summary }}\n*Severity:* {{ .Labels.severity }}\n*Time:* {{ .StartsAt }}\n{{ end }}"
-            api_url: "https://hooks.slack.com/services/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"
+            api_url: "https://hooks.slack.com/services/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"
             
     
 
