@@ -20,6 +20,12 @@ spec:
           args:
             - "--config.file=/etc/alertmanager/alertmanager.yml"
             - "--storage.path=/alertmanager"
+          env:
+            - name: SLACK_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: slack-secret  # Name of the Kubernetes Secret
+                  key: slack_url       # Key inside the Secret
           volumeMounts:
             - name: config-volume
               mountPath: /etc/alertmanager
